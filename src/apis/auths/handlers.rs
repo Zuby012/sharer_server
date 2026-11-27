@@ -112,7 +112,6 @@ pub async fn register_user(
             Err(ApiError::Conflict(msg.to_string()))
         }
         Err(err) => {
-            println!("create user failed: {err}");
             tracing::error!("create user failed: {err}");
             Err(ApiError::Internal("could not create user".to_string()))
         }

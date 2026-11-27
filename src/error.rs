@@ -1,12 +1,9 @@
 //----------importing creates-----------------
 use axum::{
-    extract::{
-        rejection::{JsonRejection, PathRejection, QueryRejection},
-        FromRequest, FromRequestParts,
-    },
+    Json,
+    extract::rejection::{JsonRejection, PathRejection, QueryRejection},
     http::StatusCode,
     response::{IntoResponse, Response},
-    Json,
 };
 use serde::Serialize;
 use std::sync::PoisonError;
@@ -81,16 +78,3 @@ impl<T> From<PoisonError<T>> for ApiError {
         ApiError::Internal("lock poisoned".to_string())
     }
 }
-
-//============================= 4. Custom extractors ==============================================
-#[derive(FromRequest)]
-#[from_request(via(axum::Json), rejection(ApiError))]
-pub struct AppJson<T>(pub T);
-
-#[derive(FromRequestParts)]
-#[from_request(via(axum::extract::Path), rejection(ApiError))]
-pub struct AppPath<T>(pub T);
-
-#[derive(FromRequestParts)]
-#[from_request(via(axum::extract::Query), rejection(ApiError))]
-pub struct AppQuery<T>(pub T);

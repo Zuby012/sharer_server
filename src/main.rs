@@ -4,8 +4,6 @@ mod error;
 mod extractors;
 mod state;
 
-use axum;
-
 #[tokio::main]
 async fn main() {
     dotenvy::dotenv().ok();
